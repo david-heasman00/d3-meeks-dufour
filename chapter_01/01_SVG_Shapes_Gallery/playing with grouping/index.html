@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SVG Shapes Gallery | D3.js in Action</title>
+</head>
+<body>
+  <!--Wrap SVG in div container with max pixel width of 1200 px and centres -->
+  <div style ="width:100%; max-width:1200px; margin:0 auto;">
+
+  	<!--Set responsive svg element for ratio of 900 to 300 -->
+  	<svg viewBox="0 0 900 300" style="border:1px solid black;">
+  		
+  		<!--Create a line in SVG -->
+  		<line x1="50" y1="45" x2="140" y2="225" stroke="black" stroke-width="3"/>
+
+  		<!--Create a rectangle in SVG -->
+  		<rect x="260" y="25" width="120" height="60" fill="#6ba5d7"/>
+
+  		<!--Create a rounded rectangle -->
+  		<rect x="260" y="100" width="120" height="60" rx="20" ry="20"/>
+
+  		<!--Create a square and text, set to 0,0 and translate in group -->
+  		<g transform="translate(260,175)">
+  		 <rect x="0" y="0" width="60" height="60" fill="transparent" stroke="#6ba6d7"/>
+  		 <text x="0" y="80" fill="#6ba5d7">rect</text>
+  	  </g>
+
+  		<!--Create a circle -->
+  		<circle cx="530" cy="80" r="50" fill="transparent" stroke="#81c21c" stroke-width="3" />
+
+  		<!--Create an ellipse -->
+  		<ellipse cx="530" cy="205" rx="50" ry="30" fill="#81c21c" stroke="#000" stroke-width="2"/>
+
+  		<!--Create a path -->
+  		<path d="M680 150 C 710 80, 725 80, 755 150 S 810 220, 840 150" fill="none" stroke="#773b9a" stroke-width="3"/>
+
+  		<!--Create text elements -->
+  		<g fill="#636466" style="font-size:16px; font-family:monospace">
+  			<text x="60" y="260">line</text>
+  			<text x="530" y="155" text-anchor="middle" fill="#81c21c">circle</text>
+  			<text x="530" y="260" text-anchor="middle" fill="#81c21c">ellipse</text>
+  			<text x="775" y="260" text-anchor="middle" fill="#773b9a">path</text>
+  		</g>
+  	</svg>
+  </div>
+</body>
+</html>
