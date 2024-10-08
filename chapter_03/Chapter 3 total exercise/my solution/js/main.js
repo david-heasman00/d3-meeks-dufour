@@ -44,23 +44,25 @@ const createViz = (data) => {
     .paddingInner(0.2);
 
   //Binding data to rectangles
-  const barHeight = 20;
-  svg
-    .selectAll("rect")
+
+  //Create bar and label groups and translate across y axis
+  const barAndLabel = svg
+    .selectAll("g")
     .data(data)
-    /*
-    .join("rect")
-    .attr("class", d => {
-      console.log(d);
-      return "bar";
-    })
-    .attr("width", d => xScale(d.count))
-    .attr("height", yScale.bandwidth())
-    .attr("x", 100)
-    .attr("y", d => yScale(d.technology))
-    
-    //Add colour and highlight colour
-    .attr("fill", "#ADA1A7")
-    .attr("fill", d => d.technology === "D3.js" ? "#B3477D" : "#ADA1A7");
-    */
+    .join("g")
+      .attr("transform", d => `translate(0, ${yScale(d.technology)})`);
+
+  //Bind rectangles to data
+  barAndLabel
+    .append("rect")
+      .attr("width", d => xScale(d.count))
+      .attr("height", yScale.bandwidth())
+      .attr("x", 100)
+      .attr("y", 0)
+      .attr("fill", d => d.technology === "D3.js" ? "#B3477D" : "#ADA1A7");
+
+  //Bind text labels to data
+  barAndLabel
+    .append("text")
+      .text(d => d.technology);
 };
