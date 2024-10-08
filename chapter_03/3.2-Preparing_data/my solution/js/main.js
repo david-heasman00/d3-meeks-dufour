@@ -12,5 +12,15 @@ d3.csv("data/data.csv", d => {
   };
 }).then(data => {
   console.log(data);
+  console.log(data.length);
+  console.log(d3.max(data, d => d.count));
+  console.log(d3.min(data, d => d.count));
+  console.log(d3.extent(data, d => d.count));
+
+  data.sort((a, b ) => b.count - a.count);
+
+  createViz(data);
 });
+
+const createViz = (data) => {};
 
