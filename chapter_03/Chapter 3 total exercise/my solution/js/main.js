@@ -2,7 +2,6 @@
 const svg = d3.select(".responsive-svg-container")
   .append("svg")
   .attr("viewBox", "0 0 600 700")
-  .style("border", "1px solid black");
 
 // Load, format and measure the dataset
 d3.csv("data/data.csv", d => {
@@ -61,8 +60,31 @@ const createViz = (data) => {
       .attr("y", 0)
       .attr("fill", d => d.technology === "D3.js" ? "#B3477D" : "#ADA1A7");
 
-  //Bind text labels to data
+  //Bind column labels to data
   barAndLabel
     .append("text")
-      .text(d => d.technology);
+      .text(d => d.technology)
+      .attr("x", 96)
+      .attr("y", 12)
+      .attr("text-anchor", "end")
+      .style("font-family", "open-sans, sans-serif")
+      .style("font-size", "11px");
+
+  //Bind row labels to data
+  barAndLabel
+    .append("text")
+      .text(d => d.count)
+      .attr("x", d => 100 + xScale(d.count) + 4)
+      .attr("y", 12)
+      .style("font-family", "open-sans, sans-serif")
+      .style("font-size", "9px");
+
+  //Append vertical axis line
+  svg
+    .append("line")
+    .attr("x1", 100)
+    .attr("y1", 0)
+    .attr("x2", 100)
+    .attr("y2", 700)
+    .attr("stroke", "black");
 };
