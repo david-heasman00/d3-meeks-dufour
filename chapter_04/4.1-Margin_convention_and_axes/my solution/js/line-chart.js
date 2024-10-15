@@ -20,4 +20,10 @@ const drawLineChart = (data) => {
   const innerChart = svg
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+  const firstDate = d3.min(data, d => d.date);
+  const lastDate = d3.max(data, d => d.date);
+  const xScale = d3.scaleTime()
+    .domain([firstDate, lastDate])
+    .range([0, innerWidth]);
 };
