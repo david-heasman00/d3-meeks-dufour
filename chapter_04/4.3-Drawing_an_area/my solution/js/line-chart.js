@@ -1,5 +1,5 @@
 // Load the data here
-d3.csv("../data/weekly_temperature.csv", d3.autoType).then(data => {
+d3.csv("data/weekly_temperature.csv", d3.autoType).then(data => {
   console.log("temperature data", data);
   drawLineChart(data);
 });
@@ -88,12 +88,25 @@ const drawLineChart = (data) => {
       .text("Temperature (°F)")
       .attr("y", 20);
 
-  
-  /*********************************************/
-  /*   Line chart of the average temperature   */
-  /*********************************************/
-  // Draw the data points
-  const aubergine = "#75485E";
+
+  /***************************************/
+  /*  Area chart of the min & max temp   */
+  /***************************************/
+  //Area chart before line chart due to svg drawing order and area chart below line chart
+
+  //Area chart generator
+  const areaGenerator = d3.area()
+    .x(d => xScale(d.date))
+    .y0(d => yScale(d.min_temp_F))
+    .y1(d => yScale(d.max_temp_F))
+    .curve(d3.curveCatmullRom);
+
+
+  /***********************************/
+  /* Line chart of the average temp  */
+  /***********************************/
+  //Bind data to circles for illustration purposes
+  const mainDataColour = "#B3477D";
   innerChart
     .selectAll("circle")
     .data(data)
@@ -101,19 +114,18 @@ const drawLineChart = (data) => {
       .attr("r", 4)
       .attr("cx", d => xScale(d.date))
       .attr("cy", d => yScale(d.avg_temp_F))
-      .attr("fill", aubergine);
-    
-  // Initialize the line/curve generator
-  const curveGenerator = d3.line()
+      .attr("fill", mainDataColour);
+  
+  //Create line generator
+  const lineGenerator = d3.line()
     .x(d => xScale(d.date))
     .y(d => yScale(d.avg_temp_F))
     .curve(d3.curveCatmullRom);
-    
-  // Draw the line/curve
+  
+  //Bind line to chart
   innerChart
     .append("path")
-      .attr("d", curveGenerator(data))
+      .attr("d", lineGenerator(data))
       .attr("fill", "none")
-      .attr("stroke", aubergine);
-
+      .attr("stroke", mainDataColour);
 };

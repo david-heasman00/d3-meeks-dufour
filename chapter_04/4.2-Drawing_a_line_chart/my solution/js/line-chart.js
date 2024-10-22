@@ -1,5 +1,5 @@
 // Load the data here
-d3.csv("../data/weekly_temperature.csv", d3.autoType).then(data => {
+d3.csv("data/weekly_temperature.csv", d3.autoType).then(data => {
   console.log("temperature data", data);
   drawLineChart(data);
 });
@@ -88,4 +88,30 @@ const drawLineChart = (data) => {
       .text("Temperature (°F)")
       .attr("y", 20);
 
+  /****************************/
+  /*       Bind the data      */
+  /****************************/
+  //Bind data to circles for illustration purposes
+  const mainDataColour = "#B3477D";
+  innerChart
+    .selectAll("circle")
+    .data(data)
+    .join("circle")
+      .attr("r", 4)
+      .attr("cx", d => xScale(d.date))
+      .attr("cy", d => yScale(d.avg_temp_F))
+      .attr("fill", mainDataColour);
+  
+  //Create line generator
+  const lineGenerator = d3.line()
+    .x(d => xScale(d.date))
+    .y(d => yScale(d.avg_temp_F))
+    .curve(d3.curveCatmullRom);
+  
+  //Bind line to chart
+  innerChart
+    .append("path")
+      .attr("d", lineGenerator(data))
+      .attr("fill", "none")
+      .attr("stroke", mainDataColour);
 };
