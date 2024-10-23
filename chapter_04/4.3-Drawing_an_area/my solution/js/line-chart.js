@@ -92,6 +92,7 @@ const drawLineChart = (data) => {
   /***************************************/
   /*  Area chart of the min & max temp   */
   /***************************************/
+  const mainDataColour = "#B3477D";
   //Area chart before line chart due to svg drawing order and area chart below line chart
 
   //Area chart generator
@@ -101,12 +102,18 @@ const drawLineChart = (data) => {
     .y1(d => yScale(d.max_temp_F))
     .curve(d3.curveCatmullRom);
 
+  //Bind area to chart with transparent colour
+  innerChart
+    .append("path")
+      .attr("d", areaGenerator(data))
+      .attr("fill", mainDataColour)
+      .attr("fill-opacity", 0.2);
+
 
   /***********************************/
   /* Line chart of the average temp  */
   /***********************************/
   //Bind data to circles for illustration purposes
-  const mainDataColour = "#B3477D";
   innerChart
     .selectAll("circle")
     .data(data)
