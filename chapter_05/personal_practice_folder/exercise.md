@@ -44,9 +44,10 @@ const products = [
 // TASK:
 // Write a filter function to keep only products that have more than zero sales.
 // Use `console.log()` to output the filtered array to the browser's console.
-const soldProducts = products.filter(product => product.sales > 0);
 
-console.log("Products with sales:", soldProducts);
+// HINT: Use the `filter()` function to iterate through each product and check if the sales are greater than zero.
+
+console.log("Filtered products with sales:", soldProducts);
 ```
 
 **HOW TO VIEW RESULTS**:
@@ -60,7 +61,7 @@ Now that you've filtered the products, let's extract just the product names from
 // TASK:
 // Use the `map()` function to create an array of product names from `soldProducts`.
 // Use `console.log()` to output this array.
-const productNames = soldProducts.map(product => product.name);
+// HINT: Use the `map()` function to extract the `name` property from each product in the `soldProducts` array.
 
 console.log("Product Names:", productNames);
 ```
@@ -73,13 +74,8 @@ Let's revisit our `products` array. This time, instead of using `filter()` and `
 // TASK:
 // Write a `for` loop to iterate over the `products` array. For each product, check if the sales are greater than zero.
 // If they are, push the product name into a new array called `formattedProducts`. Use `console.log()` to view the final result.
-const formattedProducts = [];
 
-for (let i = 0; i < products.length; i++) {
-    if (products[i].sales > 0) {
-        formattedProducts.push(products[i].name);
-    }
-}
+// HINT: Use a `for` loop to iterate through each product. If the `sales` value is greater than zero, add the `name` to the new array `formattedProducts`.
 
 console.log("Formatted Product Names (using loop):", formattedProducts);
 ```
@@ -93,7 +89,8 @@ Let's take it up a notch and combine `filter()`, `map()`, and `forEach()`.
 // First, filter out the products that have zero sales.
 // Then, map the result to an array of product names.
 // Finally, use `forEach()` to log each product name individually to the console.
-const filteredAndMappedProducts = products.filter(product => product.sales > 0).map(product => product.name);
+
+// HINT: Chain `filter()`, `map()`, and then use `forEach()` to log each resulting product name individually.
 
 filteredAndMappedProducts.forEach(productName => {
     console.log("Product (from forEach):", productName);
