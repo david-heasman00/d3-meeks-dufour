@@ -32,4 +32,9 @@ const drawDonutCharts = (data) => {
         sales: yearData[format]});
     });
   });
+
+  //Initialize Pie Generator
+  const pieGenerator = d3.pie()
+    .value(d => d.sales);
+  const annotatedData = pieGenerator(formattedData);
 };
