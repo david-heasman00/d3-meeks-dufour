@@ -3,6 +3,7 @@ const width = 900;
 const height = 350;
 const innerWidth = width - margin.left - margin.right;
 const innerHeight = height - margin.top - margin.bottom;
+const transition_duration = 1000;
 
 const formatsInfo = [
   {id: "vinyl", label: "Vinyl", color: "#5c8c99"},
