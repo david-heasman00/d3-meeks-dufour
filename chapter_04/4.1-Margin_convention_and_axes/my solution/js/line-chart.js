@@ -38,7 +38,7 @@ const drawLineChart = (data) => {
   //Draw x axis
   const bottomAxis = d3.axisBottom(xScale) //Create variable with axis method
     .tickFormat(d3.timeFormat('%b'));       //Chain tick format to read the month
-  
+
   //X axis with class axis-x
   innerChart
     .append("g")

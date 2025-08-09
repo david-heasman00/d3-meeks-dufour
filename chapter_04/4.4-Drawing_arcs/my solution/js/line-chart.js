@@ -7,9 +7,7 @@ d3.csv("data/weekly_temperature.csv", d3.autoType).then(data => {
 // Create the line chart here
 const drawLineChart = (data) => {
 
-  /*******************************/
-  /*    Declare the constants    */
-  /*******************************/
+  
   const margin = {top: 40, right: 170, bottom: 25, left: 40};
   const width = 1000;
   const height = 500;

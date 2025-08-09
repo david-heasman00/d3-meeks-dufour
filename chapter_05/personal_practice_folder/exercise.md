@@ -63,39 +63,93 @@ Now that you've filtered the products, let's extract just the product names from
 // Use `console.log()` to output this array.
 // HINT: Use the `map()` function to extract the `name` property from each product in the `soldProducts` array.
 
+
 console.log("Product Names:", productNames);
 ```
+### Exercise 3: Formatting Sales Data Using Loops
 
-#### EXERCISE 3: Looping Through Data
+This exercise will help you practice extracting values from an object and transforming them into a new structured format. The goal is to make the data more suitable for visualizations like those you see in D3.js. This exercise is similar to Listing 5.3 in *D3.js in Action*, focusing on **looping** through data and **reformatting** it.
 
-Let's revisit our `products` array. This time, instead of using `filter()` and `map()`, let's manually loop through the array and format our data.
+##### Step-by-Step Instructions
+
+You have an object representing sales figures for different products for a particular year. Your task is to **format** this data into an array of objects where each object contains the product type and its corresponding sales value.
+
+##### Step 1: Initial Object
+Define the initial object called `yearData` that contains different products and their sales for a specific year.
 
 ```javascript
-// TASK:
-// Write a `for` loop to iterate over the `products` array. For each product, check if the sales are greater than zero.
-// If they are, push the product name into a new array called `formattedProducts`. Use `console.log()` to view the final result.
-
-// HINT: Use a `for` loop to iterate through each product. If the `sales` value is greater than zero, add the `name` to the new array `formattedProducts`.
-
-console.log("Formatted Product Names (using loop):", formattedProducts);
+const yearData = {
+  year: 2023,
+  vinyl: 8061.8,
+  eight_track: 2770.4,
+  cassette: 1256.3
+};
 ```
 
-#### EXERCISE 4: Combining Operations
-
-Let's take it up a notch and combine `filter()`, `map()`, and `forEach()`.
+##### Step 2: Extract the Product Types
+- Extract all keys from the `yearData` object **except** the key called `"year"`.
+- Use the `Object.keys()` method to get the keys of the object.
+- Use `.filter()` to remove the `"year"` key.
 
 ```javascript
-// TASK:
-// First, filter out the products that have zero sales.
-// Then, map the result to an array of product names.
-// Finally, use `forEach()` to log each product name individually to the console.
+const formats = Object.keys(yearData).filter(key => key !== "year");
+```
 
-// HINT: Chain `filter()`, `map()`, and then use `forEach()` to log each resulting product name individually.
+##### Step 3: Create `formattedData` Array
+- Create an empty array called `formattedData`.
+- Use `.forEach()` to loop through the list of product types (`formats`).
+- For each product type, create an object that contains `product` and `sales` values.
+- Push each newly created object into `formattedData`.
 
-filteredAndMappedProducts.forEach(productName => {
-    console.log("Product (from forEach):", productName);
+##### Skeleton Code (Without Full Solution)
+
+```javascript
+// Step 1: Define yearData
+const yearData = {
+  year: 2023,
+  vinyl: 8061.8,
+  eight_track: 2770.4,
+  cassette: 1256.3
+};
+
+// Step 2: Get keys and filter out "year"
+const formats = Object.keys(yearData).filter(key => key !== "year");
+
+// Step 3: Create formattedData array
+const formattedData = [];
+
+formats.forEach(format => {
+  // Your task: push an object { product: format, sales: yearData[format] } to formattedData
 });
+
+console.log(formattedData);
 ```
+
+### Task Overview
+- Extract the **product types** using `Object.keys()` and filter out `"year"`.
+- Use `.forEach()` to **loop** through the `formats` array.
+- **Push** the `product` and `sales` data into `formattedData`.
+
+### Expected Output
+After completing the exercise, the `formattedData` array should look like this:
+
+```javascript
+[
+  { product: "vinyl", sales: 8061.8 },
+  { product: "eight_track", sales: 2770.4 },
+  { product: "cassette", sales: 1256.3 }
+]
+```
+
+### Reflection
+This exercise helps you understand how to:
+- Extract keys from an object and filter them based on a condition.
+- Use `.forEach()` to **loop** through an array and perform actions.
+- Build a new **formatted array** to prepare data for further use, similar to what’s done in D3.js.
+
+Once you're done, try comparing this to Listing 5.3 in *D3.js in Action* to see if you better understand the data transformation happening there.
+
+Good luck, and have fun transforming the data! 😊
 
 **HOW TO VIEW RESULTS**:
 For each of the exercises above, simply open the HTML file in your browser and open the Developer Tools (Inspect). Go to the Console tab to see the printed results of each exercise.
