@@ -1,3 +1,4 @@
+
 /* Responsive container of the svg element */
 .responsive-svg-container {
   width: 100%;
@@ -5,3 +6,8 @@
 }
 
 /* Axis and ticks */
+.tick text {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}

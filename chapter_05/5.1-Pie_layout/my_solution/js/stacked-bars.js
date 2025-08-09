@@ -13,5 +13,5 @@ const drawStackedBars = (data) => {
     .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  
+
 };

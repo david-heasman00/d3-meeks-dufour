@@ -19,7 +19,7 @@ const drawDonutCharts = (data) => {
         .attr("transform", `translate(${xScale(year)}, ${innerHeight/2})`);
     
     // Prep data for pie generator
-    console.log("original data", data)      //See original data in log before its formatted
+    //console.log("original data", data)      //See original data in log before its formatted
     const yearData = data.find(d => d.year === year);   // Find data for the year of interest
     const formattedData = [];     //Create empty array to hold formatted data
     //For each format, create object containing format ID & sales for year of interest. Push object to formatted data array.
@@ -27,7 +27,7 @@ const drawDonutCharts = (data) => {
       formattedData.push({ format: format,
         sales: yearData[format] });
     });
-    console.log("formattedData", formattedData);  //log formatted Data to see how it changes
+    //console.log("formattedData", formattedData);  //log formatted Data to see how it changes
     
     //***************/
     //Draw Pie Charts
@@ -38,7 +38,7 @@ const drawDonutCharts = (data) => {
 
     //Call pie generator to obtain annotated data (and log it)
     const annotatedData = pieGenerator(formattedData);
-    console.log("annotatedData", annotatedData)
+    //console.log("annotatedData", annotatedData)
 
     //Create arc generator function
     const arcGenerator = d3.arc()
