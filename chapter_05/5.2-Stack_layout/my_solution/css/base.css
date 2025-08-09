@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600&family=Roboto:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
 
 html {
   font-size: 62.5%;
@@ -11,7 +11,7 @@ html {
 body {
   margin: 0;
   background-color: #f6fafc;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Lora', serif;
   font-size: 1.6rem;
   line-height: 2.8rem;
   font-weight: 400;
@@ -28,7 +28,7 @@ body {
 
 /* Type */
 h1, h2, h3, h4 {
-  font-family: 'EB Garamond', serif;
+  font-family: 'Source Sans 3', sans-serif;
   line-height: 1.2;
   font-weight: 600;
 }
@@ -68,15 +68,16 @@ span.support {
   color: #f6fafc;
   border-radius: 2px;
 }
-.support-vinyl { background-color: #76B6C2; }
-.support-eigth-track { background-color: #4CDDF7; }
-.support-cassette { background-color: #20B9BC; }
-.support-cd { background-color: #2F8999; }
-.support-download { background-color: #E39F94; }
-.support-streaming { background-color: #ED7864; }
-.support-other { background-color: #ABABAB; }
+.support-vinyl { background-color: #5c8c99; }
+.support-eigth-track { background-color: #a9d9e6; }
+.support-cassette { background-color: #0c627a; }
+.support-cd { background-color: #57a3b8; }
+.support-download { background-color: #FFCB96; }
+.support-streaming { background-color: #C76C5D; }
+.support-other { background-color: #ADA1A7; }
 
 /* Color legend */
+
 .color-legend {
   display: flex;
   justify-content: center;

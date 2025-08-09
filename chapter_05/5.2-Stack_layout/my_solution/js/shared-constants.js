@@ -5,11 +5,11 @@ const innerWidth = width - margin.left - margin.right;
 const innerHeight = height - margin.top - margin.bottom;
 
 const formatsInfo = [
-  {id: "vinyl", label: "Vinyl", color: "#76B6C2"},
-  {id: "eight_track", label: "8-Track", color: "#4CDDF7"},
-  {id: "cassette", label: "Cassette", color: "#20B9BC"},
-  {id: "cd", label: "CD", color: "#2F8999"},
-  {id: "download", label: "Download", color: "#E39F94"},
-  {id: "streaming", label: "Streaming", color: "#ED7864"},
-  {id: "other", label: "Other", color: "#ABABAB"},
+  {id: "vinyl", label: "Vinyl", color: "#5c8c99"},
+  {id: "eight_track", label: "8-Track", color: "#a9d9e6"},
+  {id: "cassette", label: "Cassette", color: "#0c627a"},
+  {id: "cd", label: "CD", color: "#57a3b8"},
+  {id: "download", label: "Download", color: "#FFCB96"},
+  {id: "streaming", label: "Streaming", color: "#C76C5D"},
+  {id: "other", label: "Other", color: "#ADA1A7"},
 ];
