@@ -15,10 +15,13 @@ const drawStackedBars = (data) => {
 
   /*********************************/
   /*    Stack Layout Generator     */
-  /***  ******************************/
+  /*********************************/
 
   const stackGenerator = d3.stack()                         //Initialize stack layout generator
-    .keys(formatsInfo.map(f => f.id));                      //Tell layout function which keys from dataset to create series
+    .keys(formatsInfo.map(f => f.id))                       //Tell layout function which keys from dataset to create series
+    //Turn Stack Layout into Normalised Stack Chart
+    .order(d3.stackOrderDescending)
+    .offset(d3.stackOffsetExpand);
 
   const annotatedData = stackGenerator(data);               //Call layout generator and pass data as argument and store as a constant
   console.log("annotatedData", annotatedData);
@@ -48,8 +51,7 @@ const drawStackedBars = (data) => {
   //Use the min and max values to set the domain in the scale
   const yScale = d3.scaleLinear()
     .domain([minDomain, maxDomain])
-    .range([innerHeight, 0])
-    .nice();
+    .range([innerHeight, 0]);
 
   /**************************/
   /* Appending stacked bars */

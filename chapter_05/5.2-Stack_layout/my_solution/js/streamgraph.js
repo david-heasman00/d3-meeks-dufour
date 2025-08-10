@@ -18,7 +18,10 @@ const drawStreamGraph = (data) => {
   /*********************************/   
 
   const stackGenerator = d3.stack()
-    .keys(formatsInfo.map(f => f.id));
+    .keys(formatsInfo.map(f => f.id))
+    //Turn into steamagraph 
+    .order(d3.stackOrderInsideOut)                      //StackOrder
+    .offset(d3.stackOffsetSilhouette);                  //StackOffset
   const annotatedData = stackGenerator(data);
 
   /***************************/
