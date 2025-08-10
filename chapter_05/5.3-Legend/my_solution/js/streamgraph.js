@@ -18,19 +18,40 @@ const drawStreamGraph = (data) => {
   /*********************************/   
 
   const stackGenerator = d3.stack()
-    .keys(formatsInfo.map(f => f.id));
+    .keys(formatsInfo.map(f => f.id))
+    //Turn into steamagraph 
+    .order(d3.stackOrderInsideOut)                      //StackOrder
+    .offset(d3.stackOffsetSilhouette);                  //StackOffset
   const annotatedData = stackGenerator(data);
 
   /***************************/
   /* Declare vertical scale */
   /**************************/
-  
-  const maxUpperBoundary = d3.max(annotatedData[annotatedData.length - 1], d => d[1]);
 
+  //As we're going to use .order() and .offset() this block of code will 
+  //set the domain and range for each series, in the context of the .order and .offset
+  //meaning we don't need to change it every time. Basically domain will become dynamic
+
+  //Declare two empty arrays to store min and max value of each series
+  const minLowerBoundaries = [];
+  const maxUpperBoundaries = [];
+
+  //Loop through annotated dataset stack Generator creates, finding min and max value in each series, and push into arrays
+  annotatedData.forEach(series => {
+    minLowerBoundaries.push(d3.min(series, d => d[0]));
+    maxUpperBoundaries.push(d3.max(series, d => d[1]));
+  })
+
+  //Extract min and max values from each aray
+  const minDomain = d3.min(minLowerBoundaries);
+  const maxDomain = d3.max(maxUpperBoundaries);
+
+  //Use the min and max values to set the domain in the scale
   const yScale = d3.scaleLinear()
-    .domain([0, maxUpperBoundary])
+    .domain([minDomain, maxDomain])
     .range([innerHeight, 0])
     .nice();
+
 
 /***********************************/
 /* Append Area Chart / Steamagraph */
@@ -43,7 +64,18 @@ const areaGenerator = d3.area()
   .y0(d => yScale(d[0]))
   .y1(d => yScale(d[1]))
   .curve(d3.curveCatmullRom);                                       //Makes a curve instead of lines
-        
+
+//Append x-axis grid                                                //Appeneded before steamchart so its behind data
+const bottomAxis = d3.axisBottom(xScale)
+  .tickValues(d3.range(1975, 2020, 5))
+  .tickSizeOuter(0)
+  .tickSize(innerHeight * -1);                                      //Make tick size size of chart so they become a grid
+
+innerChart
+  .append("g")
+  .attr("class", "x-axis-streamgraph")
+  .attr("transform", `translate(0, ${innerHeight})`)
+  .call(bottomAxis);
 
 //Append chart 
 innerChart 
@@ -58,13 +90,41 @@ innerChart
 
 
 
-/******************/
-/* Appending axes */
-/******************/
+/********************/
+/* Append left axis */
+/********************/
 
 const leftAxis = d3.axisLeft(yScale);
 innerChart
   .append("g")
   .call(leftAxis);
 
+
+/**************************/
+/* Add label to left axis */
+/**************************/
+
+const leftAxisLabel = svg
+  .append("text")
+    .attr("dominant-baseline", "hanging");
+
+leftAxisLabel
+  .append("tspan")
+    .text("Total revenue");
+
+leftAxisLabel
+  .append("tspan")
+    .text("(million USD)")
+    .attr("dx", 5)
+    .attr("fill-opacity", 0.7);
+  
+leftAxisLabel
+  .append("tspan")
+    .text("Adjusted for inflation")
+    .attr("x", 0)
+    .attr("dy", 20)
+    .attr("fill-opacity", 0.7)
+    .attr("font-size", "14px");
+
 };
+
