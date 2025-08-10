@@ -15,7 +15,7 @@ const drawStackedBars = (data) => {
 
   /*********************************/
   /*    Stack Layout Generator     */
-  /*********************************/
+  /***  ******************************/
 
   const stackGenerator = d3.stack()                         //Initialize stack layout generator
     .keys(formatsInfo.map(f => f.id));                      //Tell layout function which keys from dataset to create series
@@ -27,10 +27,27 @@ const drawStackedBars = (data) => {
   /* Declare vertical scale */
   /**************************/
 
-  const maxUpperBoundary = d3.max(annotatedData[annotatedData.length -1], d => d[1]);
+  //As we're going to use .order() and .offset() this block of code will 
+  //set the domain and range for each series, in the context of the .order and .offset
+  //meaning we don't need to change it every time. Basically domain will become dynamic
 
+  //Declare two empty arrays to store min and max value of each series
+  const minLowerBoundaries = [];
+  const maxUpperBoundaries = [];
+
+  //Loop through annotated dataset stack Generator creates, finding min and max value in each series, and push into arrays
+  annotatedData.forEach(series => {
+    minLowerBoundaries.push(d3.min(series, d => d[0]));
+    maxUpperBoundaries.push(d3.max(series, d => d[1]));
+  })
+
+  //Extract min and max values from each aray
+  const minDomain = d3.min(minLowerBoundaries);
+  const maxDomain = d3.max(maxUpperBoundaries);
+
+  //Use the min and max values to set the domain in the scale
   const yScale = d3.scaleLinear()
-    .domain([0, maxUpperBoundary])
+    .domain([minDomain, maxDomain])
     .range([innerHeight, 0])
     .nice();
 
