@@ -43,7 +43,18 @@ const areaGenerator = d3.area()
   .y0(d => yScale(d[0]))
   .y1(d => yScale(d[1]))
   .curve(d3.curveCatmullRom);                                       //Makes a curve instead of lines
-        
+
+//Append x-axis grid                                                //Appeneded before steamchart so its behind data
+const bottomAxis = d3.axisBottom(xScale)
+  .tickValues(d3.range(1975, 2020, 5))
+  .tickSizeOuter(0)
+  .tickSize(innerHeight * -1);                                      //Make tick size size of chart so they become a grid
+
+innerChart
+  .append("g")
+  .attr("class", "x-axis-streamgraph")
+  .attr("transform", `translate(0, ${innerHeight})`)
+  .call(bottomAxis);
 
 //Append chart 
 innerChart 
@@ -58,13 +69,43 @@ innerChart
 
 
 
-/******************/
-/* Appending axes */
-/******************/
+/********************/
+/* Append left axis */
+/********************/
 
 const leftAxis = d3.axisLeft(yScale);
 innerChart
   .append("g")
   .call(leftAxis);
 
+
+/**************************/
+/* Add label to left axis */
+/**************************/
+
+const leftAxisLabel = svg
+  .append("text")
+    .attr("dominant-baseline", "hanging");
+
+leftAxisLabel
+  .append("tspan")
+    .text("Total revenue");
+
+leftAxisLabel
+  .append("tspan")
+    .text("(million USD)")
+    .attr("dx", 5)
+    .attr("fill-opacity", 0.7);
+  
+leftAxisLabel
+  .append("tspan")
+    .text("Adjusted for inflation")
+    .attr("x", 0)
+    .attr("dy", 20)
+    .attr("fill-opacity", 0.7)
+    .attr("font-size", "14px");
+
+
+
 };
+
