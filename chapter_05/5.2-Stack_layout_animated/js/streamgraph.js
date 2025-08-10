@@ -43,7 +43,13 @@ const areaGenerator = d3.area()
   .y0(d => yScale(d[0]))
   .y1(d => yScale(d[1]))
   .curve(d3.curveCatmullRom);                                       //Makes a curve instead of lines
-        
+
+//Initial state for transition purposes
+const initialAreaGenerator = d3.area()                                     
+  .x(d => xScale(d.data.year) + xScale.bandwidth()/2)              
+  .y0(innerHeight)                                                  //Set beginning of transition to start at middle line
+  .y1(innerHeight)                                                  //Set beginning of transition to start at middle line
+  .curve(d3.curveCatmullRom);                                       
 
 //Append chart 
 innerChart 
@@ -52,9 +58,12 @@ innerChart
   .selectAll("path")                                                
   .data(annotatedData)
   .join("path")
-    .attr("class", d => `area area-${d.key}`)
-    .attr("d", areaGenerator)                                
-    .attr("fill", d => colorScale(d.key));
+    .attr("d", initialAreaGenerator)                                //Transition Initial State
+    .attr("fill", d => colorScale(d.key))
+  .transition()
+    .duration(transition_duration)                                  //Transition End State
+    .attr("d", areaGenerator);                                      
+    
 
 
 

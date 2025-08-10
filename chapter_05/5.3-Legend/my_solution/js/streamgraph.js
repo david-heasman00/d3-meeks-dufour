@@ -1,4 +1,5 @@
 const drawStreamGraph = (data) => {
+  // Generate the streamgraph here
   
 
   /*******************************/
@@ -11,114 +12,59 @@ const drawStreamGraph = (data) => {
   const innerChart = svg
     .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
+  
+  /*********************************/ 
+  /* Stack/steam Layout Generator */
+  /*********************************/   
 
-
-
-  /*********************************/
-  /*    Append the bottom axis     */
-  /*********************************/
-  const bottomAxis = d3.axisBottom(xScale)
-    .tickValues(d3.range(1975, 2020, 5))
-    .tickSizeOuter(0)
-    .tickSize(innerHeight * -1); // Use the axis' ticks to draw a grid behind the streamgraph
-  innerChart
-    .append("g")
-      .attr("class", "x-axis-streamgraph")
-      .attr("transform", `translate(0, ${innerHeight})`)
-      .call(bottomAxis);
-
-
-
-  /*************************************/
-  /*    Initialize the stack layout    */
-  /*************************************/
   const stackGenerator = d3.stack()
-    .keys(formatsInfo.map(f => f.id))
-    .order(d3.stackOrderInsideOut)
-    .offset(d3.stackOffsetSilhouette);
-
+    .keys(formatsInfo.map(f => f.id));
   const annotatedData = stackGenerator(data);
-  console.log("annotatedData streamgraph", annotatedData);
 
+  /***************************/
+  /* Declare vertical scale */
+  /**************************/
+  
+  const maxUpperBoundary = d3.max(annotatedData[annotatedData.length - 1], d => d[1]);
 
-  /************************************/
-  /*    Declare the vertical scale    */
-  /************************************/
-  // Find the lower and upper boundary of the domain based on the annotated data
-  const minLowerBoundaries = [];
-  const maxUpperBoundaries = [];
-  annotatedData.forEach(series => {
-    minLowerBoundaries.push(d3.min(series, d => d[0]));
-    maxUpperBoundaries.push(d3.max(series, d => d[1]));
-  });
-  const minDomain = d3.min(minLowerBoundaries);
-  const maxDomain = d3.max(maxUpperBoundaries);
-
-  // Declare the vertical scale
   const yScale = d3.scaleLinear()
-    .domain([minDomain, maxDomain])
+    .domain([0, maxUpperBoundary])
     .range([innerHeight, 0])
     .nice();
 
+/***********************************/
+/* Append Area Chart / Steamagraph */
+/***********************************/
 
+//Area layout generator
+//Final State for transition purposes
+const areaGenerator = d3.area()                                     
+  .x(d => xScale(d.data.year) + xScale.bandwidth()/2)               //Centres data points to middle of the "bars"
+  .y0(d => yScale(d[0]))
+  .y1(d => yScale(d[1]))
+  .curve(d3.curveCatmullRom);                                       //Makes a curve instead of lines
+        
 
-  /***************************************/
-  /*    Initialize the area generator    */
-  /***************************************/
-  const areaGenerator = d3.area()
-    .x(d => xScale(d.data.year) + xScale.bandwidth()/2)
-    .y0(d => yScale(d[0]))
-    .y1(d => yScale(d[1]))
-    .curve(d3.curveCatmullRom);
-
-
-
-  /***************************/
-  /*    Append the paths     */
-  /***************************/
-  innerChart
-    .append("g")
-      .attr("class", "areas-container")
-    .selectAll("path")
-    .data(annotatedData)
-    .join("path")
-      .attr("class", d => `area area-${d.key}`)
-      .attr("d", areaGenerator)
-      .attr("fill", d => colorScale(d.key));
-
-
-
-  /*******************************/
-  /*    Append the left axis     */
-  /*******************************/
-  const leftAxis = d3.axisLeft(yScale);
-  innerChart
-    .append("g")
-      .call(leftAxis);
+//Append chart 
+innerChart 
+  .append("g")                                                      //Create SVG container so its easier to debug and inspect
+    .attr("class", "areas-container")                             
+  .selectAll("path")                                                
+  .data(annotatedData)
+  .join("path")
+    .attr("class", d => `area area-${d.key}`)
+    .attr("d", areaGenerator)                                
+    .attr("fill", d => colorScale(d.key));
 
 
 
-  /***************************************/
-  /*    Add a label to the left axis     */
-  /***************************************/
-  const leftAxisLabel = svg
-    .append("text")
-      .attr("dominant-baseline", "hanging");
-  leftAxisLabel
-    .append("tspan")
-      .text("Total revenue");
-  leftAxisLabel
-    .append("tspan")
-      .text("(million USD)")
-      .attr("dx", 5)
-      .attr("fill-opacity", 0.7);
-  leftAxisLabel
-    .append("tspan")
-      .text("Adjusted for inflation")
-      .attr("x", 0)
-      .attr("dy", 20)
-      .attr("fill-opacity", 0.7)
-      .style("font-size", "14px");
+/******************/
+/* Appending axes */
+/******************/
 
-  
+const leftAxis = d3.axisLeft(yScale);
+innerChart
+  .append("g")
+  .call(leftAxis);
+
 };

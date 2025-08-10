@@ -45,11 +45,20 @@ const drawStackedBars = (data) => {
       .data(series)                                                     //Apply a different class name based on each series,
       .join("rect")                                                     //and use that as a selector to avoid removing
           .attr("class", d => `bar-${series.key}`)                      //previous rectacngles during the loop process
+
           .attr("x", d => xScale(d.data.year))                          //Scales to position rectangles and set fill attributes
           .attr("y", d => yScale(d[1]))
           .attr("width", xScale.bandwidth())
           .attr("height", d => yScale(d[0]) - yScale(d[1]))
-          .attr("fill", colorScale(series.key));
+          .attr("fill", colorScale(series.key))
+          //Set starting state for transition (adding transitions for fun, not in text book) - set bar heights 0
+          .attr("y", innerHeight)
+          .attr("height", 0)
+      .transition()                                                     //Now start transitions
+        .duration(transition_duration)
+        //Final state of transition
+        .attr("y", d => yScale(d[1]))
+        .attr("height", d => yScale(d[0]) - yScale(d[1]));
   });
   
   /******************/
