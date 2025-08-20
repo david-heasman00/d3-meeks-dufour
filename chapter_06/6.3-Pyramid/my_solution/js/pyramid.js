@@ -46,7 +46,7 @@ const drawPyramid = (data) => {
 
   //X Female Scale
   const xFemaleScale = d3.scaleLinear()
-    .domain([15,0])
+    .domain([15, 0])
     .range([0, innerWidth/2]);
 
   //Y Scale
@@ -54,7 +54,7 @@ const drawPyramid = (data) => {
   const maxSalary = femaleBins[femaleBins.length -1].x1;
   const yScale = d3.scaleLinear()
     .domain([minSalary, maxSalary])
-    .range(innerHeight, 0)
+    .range([innerHeight, 0])
     .nice();
 
   /*******************************/
@@ -77,4 +77,15 @@ const drawPyramid = (data) => {
       .attr("height", d => yScale(d.x0) - yScale(d.x1))
       .attr("fill", womenColor);
 
+  //Male Pyramids
+  pyramidContainer
+    .selectAll(".bar-men")
+    .data(maleBins)
+    .join("rect")
+      .attr("class", "bar-men")
+      .attr("x", innerWidth/2)
+      .attr("y", d => yScale(d.x1))
+      .attr("width", d => xMaleScale(d.length / data.length * 100) - innerWidth/2)
+      .attr("height", d => yScale(d.x0) - yScale(d.x1))
+      .attr("fill", menColor)
 };
