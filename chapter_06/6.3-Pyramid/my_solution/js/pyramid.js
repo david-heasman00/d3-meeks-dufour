@@ -88,4 +88,45 @@ const drawPyramid = (data) => {
       .attr("width", d => xMaleScale(d.length / data.length * 100) - innerWidth/2)
       .attr("height", d => yScale(d.x0) - yScale(d.x1))
       .attr("fill", menColor)
+
+  /*******************************/
+  /*   Add the axes and labels   */
+  /*******************************/
+
+  //X Axis
+  const bottomFemaleAxis = d3.axisBottom(xFemaleScale)
+    .tickValues([15, 10, 5, 0])
+    .tickSizeOuter(0);
+  innerChart
+    .append("g")
+    .attr("transform", `translate(0, ${innerHeight})`)
+    .call(bottomFemaleAxis);
+
+  const bottomMaleAxis = d3.axisBottom(xMaleScale)
+    .tickValues([5, 10, 15])
+    .tickSizeOuter(0);
+  innerChart
+    .append("g")
+    .attr("transform", `translate(0, ${innerHeight})`)
+    .call(bottomMaleAxis);
+
+  svg
+    .append("text")
+      .text("Percent")
+      .attr("text-anchor", "middle")
+      .attr("x", margin.left + innerWidth/2)
+      .attr("y", height - 5);
+
+  //Y Axis
+  const leftAxis = d3.axisLeft(yScale);
+  innerChart
+    .append("g")
+      .call(leftAxis);
+
+svg
+  .append("text")
+    .text("Yearly salary (USD)")
+    .attr("x", 0)
+    .attr("y", 20)
+  
 };
