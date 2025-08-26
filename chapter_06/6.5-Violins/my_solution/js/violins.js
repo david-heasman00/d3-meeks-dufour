@@ -102,11 +102,11 @@ const drawViolinCharts = (data) => {
       .attr("transform", `translate(0, ${innerHeight})`)
       .call(bottomAxis);
 
-//Append y-axis
-const leftAxis = d3.axisLeft(yScale);
-innerChart
-  .append("g")
-    .call(leftAxis);
+  //Append y-axis
+  const leftAxis = d3.axisLeft(yScale);
+  innerChart
+    .append("g")
+      .call(leftAxis);
 
 //Add y-axis label
 svg
@@ -114,4 +114,46 @@ svg
     .text("Yearly salary (USD)")
     .attr("x", 0)
     .attr("y", 20);
+
+  /***************************************/
+  /*  Draw "Historgram" for violin chart */
+  /***************************************/
+
+  roles.forEach(role => {                               //Loop through roles defined earlier and put into rolesContainer
+
+    const roleContainer = innerChart                    //Append SVG group for each role and save into roleContainer
+      .append("g")
+
+    //Append rectangle for each bin of current role
+    roleContainer
+      .selectAll(`.bar-${role.id}`)
+      .data(role.bins)
+      .join("rect")
+        .attr("class", `bar-${role.id}`)
+        .attr("x", xScale(role.id))
+        .attr("y", d => yScale(d.x1))
+        .attr("width", d => violinsScale(d.length))
+        .attr("height", d => yScale(d.x0) - yScale(d.x1))
+        .attr("fill", slateGray)
+        .attr("fill-opacity", 0.4)
+        .attr("stroke", white)
+        .attr("stroke-width", 2);    
+
+    //Draw half-violin plots
+    //AreaGenerator for half violin
+    const areaGenerator = d3.area()                               //areaGenerator x0 at centreline of each role,
+      .x0(d => xScale(role.id))
+      .x1(d => xScale(role.id) + violinsScale(d.length))          //x1 at tip of histogram bars.
+      .y(d => yScale(d.x1) + ((yScale(d.x0) - yScale(d.x1))/2))   //y middle of each bar
+      .curve(d3.curveCatmullRom)
+
+    //Append path for curve using areaGenerator
+    roleContainer
+      .append("path")
+        .attr("d", areaGenerator(role.bins))                      //d is areaGenerator run on bins of current role
+        .attr("fill", "transparent")
+        .attr("stroke", slateGray)
+        .attr("stroke-width", 2);
+  })
+
 };
