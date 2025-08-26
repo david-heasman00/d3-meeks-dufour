@@ -41,7 +41,7 @@ const drawViolinCharts = (data) => {
 
     //Map salaries for current role into roles array with "salaries" key
     role["salaries"] = data
-      .filter(d -> d.role === role.id)
+      .filter(d => d.role === role.id)
       .map(d => d.salary);
 
     //Calc mean value and store in "means" key in roles array
@@ -90,4 +90,28 @@ const drawViolinCharts = (data) => {
     .domain([0, maxBinLength])
     .range([0, xScale.step()/2]);
 
+  /*********************************/
+  /*    Append Axes                */
+  /*********************************/
+
+  //Append x-axis
+  const bottomAxis = d3.axisBottom(xScale)
+    .tickSizeOuter(0);
+  innerChart
+    .append("g")
+      .attr("transform", `translate(0, ${innerHeight})`)
+      .call(bottomAxis);
+
+//Append y-axis
+const leftAxis = d3.axisLeft(yScale);
+innerChart
+  .append("g")
+    .call(leftAxis);
+
+//Add y-axis label
+svg
+  .append("text")
+    .text("Yearly salary (USD)")
+    .attr("x", 0)
+    .attr("y", 20);
 };
