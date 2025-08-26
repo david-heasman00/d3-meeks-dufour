@@ -125,6 +125,7 @@ svg
       .append("g")
 
     //Append rectangle for each bin of current role
+    /*
     roleContainer
       .selectAll(`.bar-${role.id}`)
       .data(role.bins)
@@ -138,12 +139,13 @@ svg
         .attr("fill-opacity", 0.4)
         .attr("stroke", white)
         .attr("stroke-width", 2);    
+    */
 
     //Draw half-violin plots
     //AreaGenerator for half violin
-    const areaGenerator = d3.area()                               //areaGenerator x0 at centreline of each role,
-      .x0(d => xScale(role.id))
-      .x1(d => xScale(role.id) + violinsScale(d.length))          //x1 at tip of histogram bars.
+    const areaGenerator = d3.area()                               //areaGenerator x0 at LHS tip of each role,
+      .x0(d => xScale(role.id) - violinsScale(d.length))
+      .x1(d => xScale(role.id) + violinsScale(d.length))          //x1 at RHS tip of histogram bars.
       .y(d => yScale(d.x1) + ((yScale(d.x0) - yScale(d.x1))/2))   //y middle of each bar
       .curve(d3.curveCatmullRom)
 
@@ -151,9 +153,8 @@ svg
     roleContainer
       .append("path")
         .attr("d", areaGenerator(role.bins))                      //d is areaGenerator run on bins of current role
-        .attr("fill", "transparent")
-        .attr("stroke", slateGray)
-        .attr("stroke-width", 2);
+        .attr("fill", slateGray)
+        .attr("fill-opacity", 0.3);
   })
 
 };
