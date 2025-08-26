@@ -155,6 +155,28 @@ svg
         .attr("d", areaGenerator(role.bins))                      //d is areaGenerator run on bins of current role
         .attr("fill", slateGray)
         .attr("fill-opacity", 0.3);
+
+    //Append interquartile range rectangle
+    const width = 8;
+    roleContainer
+      .append("rect")
+        .attr("class", `.quart-${role.id}`)
+        .attr("x", d => xScale(role.id) - width/2)
+        .attr("width", width)
+        .attr("y", d => yScale(role.quartiles[2]))
+        .attr("height", yScale(role.quartiles[0]) - yScale(role.quartiles[2]))
+        .attr("fill", gray)
+        .attr("rx", 4)
+        .attr("ry", 4);
+
+    //Append circles for the mean in interquartile range rectangle
+    roleContainer
+      .append("circle")
+        .attr("class", `.mean-${role.id}`)
+        .attr("cx", d => xScale(role.id))
+        .attr("cy", d => yScale(role.mean))
+        .attr("r", 3)
+        .attr("fill", white);
   })
 
 };
