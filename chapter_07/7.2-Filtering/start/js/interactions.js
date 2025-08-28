@@ -14,8 +14,22 @@ const populateFilters = (data) => {
       .text(d => d.label)                             //Set button text using filter's label property 
       //Add event lister
       .on("click", (e, d) => {
-        console.log("DOM event", e)
-        console.log("Attached datum", d);
+        if (!d.isActive) {                                        //Verify clicked button isn't active
+
+          filters.forEach(filter => {                             //Loop through arrays filter, update isActive based on which button
+            filter.isActive = d.id === filter.id                  //was clicked
+              ? true
+              : false;
+          });
+          
+          d3.selectAll(".filter")
+            .classed("active", filter => filter.id === d.id
+              ? true
+              : false
+            );
+          
+          updateHistogram(d.id, data);
+        }
       });
 };
 
@@ -23,8 +37,19 @@ const populateFilters = (data) => {
 /****************************/
 /*   Update the histogram   */
 /****************************/
-const updateHistogram = (selectedFilter, data) => {
+const updateHistogram = (filterId, data) => {
   
-  // Update the histogram here
+  //Filter original dataset based on which button's been clicked
+  const updatedData = filterId === "all"                            //Check if all
+    ? data                                                          //Then return all data
+    : data.filter(respondent => respondent.gender === filterId);    //Else return where respondent.gender is equal to filterId
 
+  //Recalculate new bins on updated data
+  const updatedBins = binGenerator(updatedData);
+
+  //Bind new bins to histogram's rectangle elements, and update y and height
+  d3.selectAll("#histogram rect")
+    .data(updatedBins)
+      .attr("y", d => yScale(d.length))
+      .attr("height", d => innerHeight - yScale(d.length));
 };
