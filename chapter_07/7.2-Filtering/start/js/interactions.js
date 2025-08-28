@@ -50,6 +50,9 @@ const updateHistogram = (filterId, data) => {
   //Bind new bins to histogram's rectangle elements, and update y and height
   d3.selectAll("#histogram rect")
     .data(updatedBins)
+    .transition()                                                   //Add transition
+      .duration(500)                                                //Duration 500ms
+      .ease(d3.easeCubicOut)                                        //Transition easing CubicOut
       .attr("y", d => yScale(d.length))
       .attr("height", d => innerHeight - yScale(d.length));
 };
