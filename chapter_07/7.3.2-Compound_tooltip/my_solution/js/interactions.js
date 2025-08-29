@@ -84,9 +84,21 @@ const handleMouseEvents = (data) => {
 
       //Get horizontal position of mouse and apply to corresponding translation of tooltip
       const xPosition = d3.pointer(e)[0];
-
       d3.select(".tooltip")
         .attr("transform", `translate(${xPosition}, 0)`);
+
+      //Find year corresponding to horizontal position of mouse and set year accordingly
+      const year = Math.round(xScale.invert(xPosition));
+      d3.select(".tooltip-year").text(year);
+
+      //Find data corresponding to year and update values in sales breakdown
+      const yearData = data.find(item => item.year === year);
+      formatsInfo.forEach(format => {
+        d3.select(`.sales-${format.id}`)
+          .text(`${format.label}:
+            ${d3.format(",.1r")(yearData[format.id])}M$`);
+      });
+
     });
 
 };
