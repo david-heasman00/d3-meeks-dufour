@@ -78,6 +78,15 @@ const createTooltip = (data) => {
 
 const handleMouseEvents = (data) => {
 
-  // Handle the mouse events here
+  //Atach mousemove event listener to streamgraph's path elements
+  d3.selectAll(".areas-container path")
+    .on("mousemove", e => {
+
+      //Get horizontal position of mouse and apply to corresponding translation of tooltip
+      const xPosition = d3.pointer(e)[0];
+
+      d3.select(".tooltip")
+        .attr("transform", `translate(${xPosition}, 0)`);
+    });
 
 };
