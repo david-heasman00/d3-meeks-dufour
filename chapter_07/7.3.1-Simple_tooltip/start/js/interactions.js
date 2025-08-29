@@ -55,6 +55,10 @@ const handleMouseEvents = () => {
     
     //Attach event listener to circles for mouse leaving
     .on("mouseleave", (e, d) => {
-
+      
+      //Move tooltip away and set opacity to 0
+      d3.select(".tooltip")
+        .style("opacity", 0)
+        .attr("transform", `translate(0, 500)`);
     });
 }
