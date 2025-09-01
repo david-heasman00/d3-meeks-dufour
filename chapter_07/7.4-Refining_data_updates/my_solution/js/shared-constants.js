@@ -28,3 +28,7 @@ let yScale;
 let colorScale;
 let xScale;
 let rScale;
+
+//Tooltip
+const tooltipWidth = 65;
+const tooltipHeight = 32;

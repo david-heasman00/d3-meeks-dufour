@@ -90,4 +90,36 @@ const handleClickOnFilter = (data) => {
       }
     });
 
+    const createTooltip = () => {
+
+      const tooltip = innerChart
+        .append("g")
+          .attr("class", "tooltip")
+          .attr("opacity", 0);
+
+      tooltip
+        .append("text")
+        .text("cetacean")
+        .attr("x", tooltipWidth/2)
+        .attr("y", tooltipHeight/2 + 1)
+        .attr("text-anchor", "middle")
+        .attr("alignment-baseline", "middle")
+        .attr("fill", "black")
+        .style("font-weight", 900);
+    }
+
+    const handleMouseEvents = () => {
+
+      innerChart.selectAll(".cetacean")
+
+        .on("mouseenter", (e, datum) => {
+          
+          console.log("DOM Event", e);
+          console.log("Datum", datum);
+        })
+        .on("mouseleave", (e, datum) => {
+
+        })
+    };
+
 };
