@@ -89,37 +89,50 @@ const handleClickOnFilter = (data) => {
           )
       }
     });
+}
 
-    const createTooltip = () => {
+const createTooltip = () => {
 
-      const tooltip = innerChart
-        .append("g")
-          .attr("class", "tooltip")
-          .attr("opacity", 0);
+  const tooltip = innerChart
+    .append("g")
+      .attr("class", "tooltip")
+      .attr("opacity", 0);
 
-      tooltip
-        .append("text")
-        .text("cetacean")
-        .attr("x", tooltipWidth/2)
-        .attr("y", tooltipHeight/2 + 1)
-        .attr("text-anchor", "middle")
-        .attr("alignment-baseline", "middle")
-        .attr("fill", "black")
-        .style("font-weight", 900);
-    }
+  tooltip
+    .append("text")
+    .text("cetacean")
+    .attr("x", tooltipWidth/2)
+    .attr("y", tooltipHeight/2 + 1)
+    .attr("text-anchor", "middle")
+    .attr("alignment-baseline", "middle")
+    .attr("fill", "black")
+    .style("font-weight", 900);
+}
 
-    const handleMouseEvents = () => {
+const handleMouseEvents = () => {
 
-      innerChart.selectAll(".cetacean")
+  innerChart.selectAll(".cetacean")
 
-        .on("mouseenter", (e, datum) => {
-          
-          console.log("DOM Event", e);
-          console.log("Datum", datum);
-        })
-        .on("mouseleave", (e, datum) => {
-
-        })
-    };
-
-};
+    .on("mouseenter", (e, d) => {
+      d3.select(".tooltip text")                            //Select tooltip text and update with cetacean common name
+        .text(d.common_name);
+      
+      const xPosition = e.target.getAttribute("cx");        //Find position of circle and save to constants
+      const yPosition = e.target.getAttribute("cy");
+      const radius = e.target.getAttribute("r")
+      
+      d3.select(".tooltip")                                                 //Translate tooltip using saved attributes
+        .attr("transform", `translate(${xPosition - 0.5 * tooltipWidth}, 
+          ${yPosition - radius - 10})`)
+        .transition()
+          .duration(200)
+          .style("opacity", 1);
+      
+    })
+    .on("mouseleave", (e, datum) => {
+      //Move tooltip away and set opacity to 0
+      d3.select(".tooltip")
+        .style("opacity", 0)
+        .attr("transform", `translate(0, 500)`);  
+    });
+}
